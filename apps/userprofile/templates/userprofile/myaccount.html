@@ -1,0 +1,92 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Мой аккаунт  |  {% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+      <li class="is-active"><a href="{% url 'myaccount' %}" aria-current="page">Мой аккаунт</a></li>
+    </ul>
+  </nav>
+  <div class="columns">
+    <div class="column is-6">
+      <div class="media mb-4">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img src="{{ user.userprofile.get_avatar }}" alt="avatar">
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3">{% firstof user.get_full_name user.username %}</p>
+          <p class="subtitle is-6">{{ user.email }}</p>
+        </div>
+      </div>
+      <a href="{% url 'edit_profile' %}" class="button is-info">
+        <span class="icon"><i class="far fa-edit"></i></span>
+        <span>Изменить профиль</span>
+      </a>
+
+      <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="button is-danger">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span>Выйти</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr>
+  {% if invitations %}
+    <div class="notification is-info">
+      <h2 class="subtitle">У вас есть непринятые приглашения</h2>
+
+      {% for invitation in invitations %}
+        <a href="{% url 'accept_invitation' %}">{{ invitation.team.title }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="columns">
+    <div class="column is-12">
+      <h2 class="subtitle">Группы</h2>
+      <a href="{% url 'team:add_team' %}" class="button is-success">Добавить группу</a>
+    </div>
+  </div>
+
+  <div class="columns">
+    {% if active_team %}
+      <div class="column is-4">
+        <div class="notification has-background-success-light">
+          <h3 class="is-size-5">
+            {{ active_team.title }}{% if active_team.created_by == request.user %}(Владелец){% else %}
+              (Участник){% endif %}</h3>
+          <h3 class="is-size-6">Текущий тарифный план: <b>{{ plan.title }}</b></h3>
+
+          <hr>
+
+          <a href="{% url 'team:get_team' active_team.id %}" class="button is-success">Подробнее</a>
+          {% if active_team.created_by == request.user %}
+            <a href="{% url 'team:invite' %}" class="button is-info">Пригласить пользователей</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {% for team in teams %}
+      <div class="column is-4">
+        <div class="notification">
+          <h3 class="is-size-5">
+            {{ team.title }}{% if team.created_by == request.user %}(Владелец){% else %}(Участник){% endif %}</h3>
+          <h3 class="is-size-6">SHOW PLAN HERE</h3>
+
+          <hr>
+
+          <a href="{% url 'team:get_team' team.id %}" class="button is-success">Подробнее</a>
+          <a href="{% url 'team:activate_team' team.id %}" class="button is-info">Активировать</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

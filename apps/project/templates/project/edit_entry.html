@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Редактировать запись  |  {% endblock %}
+
+{% block content %}
+  <div id="project-app">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+        <li><a href="{% url 'project:get_projects' %}">Проекты</a></li>
+        <li><a href="{% url 'project:get_project' project.id %}">{{ project.title }}</a></li>
+        <li class="is-active"><a href="{% url 'project:edit_entry' project.id task.id entry.id %}" aria-current="page">Редактировать
+          запись</a></li>
+      </ul>
+    </nav>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Редактировать запись</h1>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-4">
+        <form action="." method="post">
+          {% csrf_token %}
+          <div class="field is-grouped">
+            <div class="control">
+              <div class="select">
+                <label for="id_hours">
+                  <select name="hours" id="id_hours">
+                    <option value="0"{% if hours == 0 %} selected {% endif %}>0ч</option>
+                    {% with padded_x=x|rjust:"10" %}
+                      {% for i in padded_x %}
+                        <option value="{{ forloop.counter }}" {% if hours == forloop.counter %} selected {% endif %}>{{ forloop.counter }}ч</option>
+                      {% endfor %}
+                    {% endwith %}
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <div class="select">
+                <label for="id_minutes">
+                  <select name="minutes" id="id_minutes">
+                    <option value="0"{% if minutes == 0 %} selected {% endif %}>0м</option>
+                    {% with padded_x=x|rjust:"59" %}
+                      {% for i in padded_x %}
+                        <option value="{{ forloop.counter }}" {% if minutes == forloop.counter %} selected {% endif %}>{{ forloop.counter }}м</option>
+                      {% endfor %}
+                    {% endwith %}
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="id_date">Дата</label>
+
+            <div class="control">
+              <input type="date" id="id_date" name="date" class="input" value="{{ entry.created_at|date:"Y-m-d" }}"
+                     placeholder="dd.mm.yyyy">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button class="button is-success">Сохранить</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

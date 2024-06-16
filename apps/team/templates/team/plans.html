@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}Тарифные планы  |  {% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+      <li><a href="{% url 'myaccount' %}">Мой аккаунт</a></li>
+      <li><a href="{% url 'team:get_team' team.id %}">{{ team.title }}</a></li>
+      <li class="is-active"><a href="{% url 'team:plans' %}" aria-current="page">Тарифные планы</a></li>
+    </ul>
+  </nav>
+
+  <div class="columns mt-6" id="plans-app">
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Бесплатный</p>
+              <p class="subtitle is-6">$0</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>3 проекта</li>
+              <li>1 участник</li>
+              <li>До 10 задач на проект</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Базовый</p>
+              <p class="subtitle is-6">$5</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>10 проектов</li>
+              <li>15 участников</li>
+              <li>До 30 задач на проект</li>
+            </ul>
+
+            <hr>
+
+            {% if team.plan.title == 'Basic' %}
+              <a href="?cancel_plan=true" class="button is-danger">Отменить</a>
+            {% else %}
+              <a @click="subscribe('basic')" class="button is-primary">Подключить</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Про</p>
+              <p class="subtitle is-6">$10</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>25 проектов</li>
+              <li>50 участников</li>
+              <li>до 100 задач на проект</li>
+            </ul>
+
+            <hr>
+
+            {% if team.plan.title == 'Pro' %}
+              <a href="?cancel_plan=true" class="button is-danger">Отменить</a>
+            {% else %}
+              <a @click="subscribe('basic')" class="button is-primary">Подключить</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Нужно больше?</p>
+              <p class="subtitle is-6">$?</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>Нужно больше проектов?</li>
+              <li>Нужно больше участников?</li>
+              <li>Нужно больше задач?</li>
+            </ul>
+
+            <hr>
+
+            <a href="#" class="button is-primary">Свяжитесь с нами</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const PlansApp = {
+      data() {
+        return {
+
+        }
+      },
+      delimiters: ['[[', ']]'],
+      methods: {
+        subscribe(plan) {
+          console.log('Subscribe:', plan);
+        }
+      }
+    }
+
+    Vue.createApp(PlansApp).mount('#plans-app')
+  </script>
+{% endblock %}

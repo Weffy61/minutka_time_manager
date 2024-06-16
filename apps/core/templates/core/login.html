@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Войти  |  {% endblock %}
+
+{% block content %}
+  <section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Войти</h1>
+        <h2 class="subtitle">Войдите в ваш аккаунт и начните отслеживать время</h2>
+      </div>
+    </div>
+  </section>
+
+  <div class="columns" id="signup-app">
+    <div class="column is-6 is-offset-3">
+      <form action="{% url 'login' %}" method="post" class="mt-6">
+        {% csrf_token %}
+
+        {% if form.errors %}
+          <div class="notification is-danger">
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+              {% if field.errors %}
+                {{ field.label }}: {{ field.errors | striptags }}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="field">
+          <label>E-mail</label>
+          <div class="control">
+            <input type="email" name="username" id="id_username" class="input">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Пароль</label>
+          <div class="control">
+            <input type="password" name="password" id="id_password" class="input">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-success">Войти</button>
+          </div>
+        </div>
+      </form>
+
+      <hr>
+      <h2 class="subtitle">У вас нет аккаунта?</h2>
+      <a href="{% url 'signup' %}">Создайте аккаунт бесплатно</a>
+    </div>
+  </div>
+{% endblock %}

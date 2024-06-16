@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}Главная страница  |  {% endblock %}
+
+{% block content %}
+  <section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Добро пожаловать в Минутку!</h1>
+        <h2 class="subtitle">Отслеживание времени стало проще</h2>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <div class="columns is-align-items mt-6">
+          <div class="column is-4 image">
+            <img src="{% static 'images/features-tracktime.jpg' %}" alt="">
+          </div>
+          <div class="column is-8 text">
+            <h2 class="subtitle">Простое отслеживание времени</h2>
+            <p>Отслеживание времени стало проще. Отслеживание времени стало проще. Отслеживание времени стало проще.
+            Отслеживание времени стало проще.</p>
+          </div>
+        </div>
+
+        <div class="columns is-align-items mt-6">
+          <div class="column is-8 text">
+            <h2 class="subtitle">Простое отслеживание времени</h2>
+            <p>Отслеживание времени стало проще. Отслеживание времени стало проще. Отслеживание времени стало проще.
+            Отслеживание времени стало проще.</p>
+          </div>
+          <div class="column is-4 image">
+            <img src="{% static 'images/features-tracktime.jpg' %}" alt="">
+          </div>
+        </div>
+
+        <div class="columns is-align-items mt-6">
+          <div class="column is-4 image">
+            <img src="{% static 'images/features-tracktime.jpg' %}" alt="">
+          </div>
+          <div class="column is-8 text">
+            <h2 class="subtitle">Простое отслеживание времени</h2>
+            <p>Отслеживание времени стало проще. Отслеживание времени стало проще. Отслеживание времени стало проще.
+            Отслеживание времени стало проще.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="columns is-align-items-center mt-6">
+      <div class="column is-4 is-offset-4 has-text-centered">
+        <h2 class="subtitle">Давайте начнем</h2>
+        <a href="{% url 'signup' %}" class="button is-success is-large">Создайте аккаунт бесплатно</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

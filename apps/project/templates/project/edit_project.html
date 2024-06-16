@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Редактировать проект  |  {% endblock %}
+
+{% block content %}
+  <div id="project-app">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+        <li><a href="{% url 'project:get_projects' %}">Проекты</a></li>
+        <li><a href="{% url 'project:get_project' project.id %}">{{ project.title }}</a></li>
+        <li class="is-active"><a href="{% url 'project:edit_project' project.id %}" aria-current="page">Редактировать
+          проект</a></li>
+      </ul>
+    </nav>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Редактировать проект</h1>
+      </div>
+    </div>
+    <div class="colums">
+      <div class="column is-4">
+        <form action="." method="post">
+          {% csrf_token %}
+          <div class="field">
+            <label>Заголовок</label>
+            <div class="control">
+              <input type="text" name="title" id="id_title" class="input" value="{{ project.title }}">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-success">Сохранить</button>
+            </div>
+          </div>
+          <div class="field">
+          <div class="control">
+            <a href="{% url 'project:delete_project' project.id %}" class="button is-danger">Удалить проект</a>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

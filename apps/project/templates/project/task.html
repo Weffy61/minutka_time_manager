@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% load dashboardextras %}
+
+{% block title %}{{ task.title }}  |  {% endblock %}
+
+{% block content %}
+  <div id="project-app">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+        <li><a href="{% url 'project:get_projects' %}">Проекты</a></li>
+        <li><a href="{% url 'project:get_project' project.id %}">{{ project.title }}</a></li>
+        <li class="is-active"><a href="{% url 'project:get_task' project.id task.id %}"
+                                 aria-current="page">{{ task.title }}</a></li>
+      </ul>
+    </nav>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">{{ task.title }} ({{ task.get_status_display }})</h1>
+
+        <a href="{% url 'project:edit_task' project.id task.id %}" class="button is-warning">Редактировать задачу</a>
+
+        <h2 class="subtitle mt-6">Зарегистрированное время</h2>
+        <form action="." method="post">
+          {% csrf_token %}
+          <div class="field is-grouped">
+            <div class="control">
+              <div class="select">
+                <label for="id_hours">
+                  <select name="hours" id="id_hours">
+                    <option value="0">0ч</option>
+                    {% with padded_x=x|rjust:"10" %}
+                      {% for i in padded_x %}
+                        <option value="{{ forloop.counter }}">{{ forloop.counter }}ч</option>
+                      {% endfor %}
+                    {% endwith %}
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <div class="select">
+                <label for="id_minutes">
+                  <select name="minutes" id="id_minutes">
+                    <option value="0">0м</option>
+                    {% with padded_x=x|rjust:"59" %}
+                      {% for i in padded_x %}
+                        <option value="{{ forloop.counter }}">{{ forloop.counter }}м</option>
+                      {% endfor %}
+                    {% endwith %}
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="id_date">Дата</label>
+
+            <div class="control">
+              <input type="date" id="id_date" name="date" class="input" value="{{ today|date:"Y-m-d" }}"
+                     placeholder="dd.mm.yyyy">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button class="button is-success">Сохранить</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column is-12">
+        <hr>
+
+        <h2 class="subtitle">Сохраненные записи</h2>
+
+        {% if task.entries.all %}
+          <table class="table is-fullwidth" style="text-align: left">
+            <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Пользователь</th>
+              <th>Время</th>
+              <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for entry in task.entries.all %}
+              <tr>
+                <td>{{ entry.created_at }}</td>
+                <td>{% firstof entry.created_by.get_full_name entry.created_by.username %}</td>
+                <td>{{ entry.minutes|format_minutes }}</td>
+                <td>
+                  <a href="{% url 'project:edit_entry' project.id task.id entry.id %}">Изменить</a>
+                  <a href="{% url 'project:delete_entry' project.id task.id entry.id %}">Удалить</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+              <th colspan="2">Всего</th>
+              <th colspan="2">{{ task.registered_time|format_minutes }}</th>
+            </tr>
+            </tfoot>
+          </table>
+        {% else %}
+          <p>Еще нет записей...</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

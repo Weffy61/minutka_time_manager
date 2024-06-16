@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Редактировать задачу  |  {% endblock %}
+
+{% block content %}
+  <div id="project-app">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+        <li><a href="{% url 'project:get_projects' %}">Проекты</a></li>
+        <li><a href="{% url 'project:get_project' project.id %}">{{ project.title }}</a></li>
+        <li class="is-active"><a href="{% url 'project:edit_task' project.id task.id %}" aria-current="page">Редактировать
+          задачу</a></li>
+      </ul>
+    </nav>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Редактировать задачу</h1>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-4">
+        <form action="." method="post">
+          {% csrf_token %}
+
+          <div class="field">
+            <label for="id_title">Заголовок</label>
+            <div class="control">
+              <input type="text" name="title" id="id_title" class="input" value="{{ task.title }}">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="id_status">Статус</label>
+
+            <div class="control">
+              <div class="select">
+                <select name="status" id="id_status">
+                  <option value="todo"{% if task.status == 'todo' %} selected{% endif %}>В процессе</option>
+                  <option value="done"{% if task.status == 'done' %} selected{% endif %}>Выполнено</option>
+                </select>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button class="button is-success">Сохранить</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

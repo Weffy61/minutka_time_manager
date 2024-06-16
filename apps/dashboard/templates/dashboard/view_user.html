@@ -1,0 +1,125 @@
+{% extends 'core/base.html' %}
+
+{% load dashboardextras %}
+
+{% block title %}{% firstof user.get_full_name user.username %}  |  {% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+      <li class="is-active">
+        <a href="{% url 'view_user' user.id %}" aria-current="page">
+          {% firstof user.get_full_name user.username %}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="columns is-multiline">
+    <div class="column is-12">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img src="{{ user.userprofile.get_avatar }}" alt="">
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3">{% firstof user.get_full_name user.username %}</p>
+          <p class="subtitle is-6">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-6">
+      <div class="notification">
+        <h2 class="subtitle">
+          Время {% firstof user.get_full_name user.username %} за
+          {% if num_days is 0 %}
+            сегодня
+          {% else %}
+            {{ date_user|date:"Y-m-d" }}
+          {% endif %}
+        </h2>
+
+        {% if date_entries %}
+          <table class="table is-fullwidth" style="text-align: left;">
+            <thead>
+            <tr>
+              <td>Задача</td>
+              <td>Проект</td>
+              <td>Время</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for entry in date_entries %}
+              <tr>
+                <td>{{ entry.task.title }}</td>
+                <td>{{ entry.project.title }}</td>
+                <td>{{ entry.minutes|format_minutes }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+
+            <tfoot>
+            <tr>
+              <td colspan="2">Всего</td>
+              <td>{{ time_for_user_and_date|format_minutes }}</td>
+            </tr>
+            </tfoot>
+          </table>
+        {% else %}
+          <p class="block">Нет записей...</p>
+        {% endif %}
+        <a href="?num_days={{ num_days|add:'1' }}" class="mt-4">Назад</a>
+        {% if num_days > 0 %}
+          <a href="?num_days={{ num_days|add:'-1' }}" class="mt-4">Вперед</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="column is-6">
+      <div class="notification">
+        <h2 class="subtitle">
+          Время {% firstof user.get_full_name user.username %} за {% if user_num_month is 0 %}этот месяц{% else %}
+          {{ user_month|date:"m-Y" }}{% endif %}
+        </h2>
+
+        {% if time_for_user_and_month %}
+          <table class="table is-fullwidth" style="text-align: left;">
+            <thead>
+            <tr>
+              <td>Проект</td>
+              <td>Время</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for project in all_projects %}
+              {% if project.time_for_user_and_project_and_month > 0 %}
+                <tr>
+                  <td>{{ project.title }}</td>
+                  <td>{{ project.time_for_user_and_project_and_month|format_minutes }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+            </tbody>
+
+            <tfoot>
+            <tr>
+              <td>Всего</td>
+              <td>{{ time_for_user_and_month|format_minutes }}</td>
+            </tr>
+            </tfoot>
+          </table>
+        {% else %}
+          <p class="block">Нет записей в этом месяце...</p>
+        {% endif %}
+        <a href="?user_num_month={{ user_num_month|add:'1' }}" class="mt-4">Назад</a>
+        {% if user_num_month > 0 %}
+          <a href="?user_num_month={{ user_num_month|add:'-1' }}" class="mt-4">Вперед</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

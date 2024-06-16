@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Пригласить пользователя  |  {% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Информационная панель</a></li>
+      <li><a href="{% url 'myaccount' %}">Мой аккаунт</a></li>
+      <li><a href="{% url 'team:get_team' team.id %}">{{ team.title }}</a></li>
+      <li class="is-active"><a href="{% url 'team:invite' %}" aria-current="page">Пригласить пользователя</a></li>
+    </ul>
+  </nav>
+
+  <div class="columns is-multiline" id="invite-app">
+    <div class="column is-4">
+      <h1 class="title">Пригласить пользователя</h1>
+
+      <div class="notification is-danger" v-if="errors.length">
+        <p v-for="error in errors">[[ error ]]</p>
+      </div>
+
+      {% if team.plan.max_members_per_team > team.members.count %}
+        <form action="." method="post" @submit="validateForm" novalidate>
+          {% csrf_token %}
+
+          <div class="field">
+            <label for="id_email">E-mail</label>
+            <div class="control">
+              <input type="email" name="email" id="id_email" v-model="email" class="input">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button class="button is-success">Пригласить</button>
+            </div>
+          </div>
+        </form>
+      {% else %}
+        <div class="notification is-warning">
+          Ваша группа достигла лимита по пользователям.<br>
+
+          {% if team.created_by == request.user %}
+            <a href="{% url 'team:plans' %}">Обновить план</a>
+          {% else %}
+            Свяжитесь с владельцем группы
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const InviteApp = {
+      data() {
+        return {
+          email: '',
+          errors: []
+        }
+      },
+      delimiters: ['[[', ']]'],
+      methods: {
+        validateForm(e) {
+          if (this.validateEmail(this.email)) {
+            return true
+          }
+
+          this.errors = ['E-mail адрес не валидный']
+
+          e.preventDefault()
+
+          return false
+        },
+        validateEmail(email) {
+          if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+            return true
+          }
+          return false
+        }
+      }
+    }
+    Vue.createApp(InviteApp).mount('#invite-app')
+  </script>
+{% endblock %}

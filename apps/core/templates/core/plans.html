@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}Plans  |  {% endblock %}
+
+{% block content %}
+  <section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Тарифные планы</h1>
+        <h2 class="subtitle">Найдите наиболее подходящий тарифный план для вашей команды</h2>
+      </div>
+    </div>
+  </section>
+
+  <div class="columns mt-6">
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Бесплатный</p>
+              <p class="subtitle is-6">$0</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>3 проекта</li>
+              <li>1 участник</li>
+              <li>До 10 задач на проект</li>
+            </ul>
+
+            <hr>
+
+            <a href="#" class="button is-primary">Подключить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Базовый</p>
+              <p class="subtitle is-6">$5</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>10 проектов</li>
+              <li>15 участников</li>
+              <li>До 30 задач на проект</li>
+            </ul>
+
+            <hr>
+
+            <a href="#" class="button is-primary">Подключить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Про</p>
+              <p class="subtitle is-6">$10</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>25 проектов</li>
+              <li>50 участников</li>
+              <li>до 100 задач на проект</li>
+            </ul>
+
+            <hr>
+
+            <a href="#" class="button is-primary">Подключить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-3">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">Нужно больше?</p>
+              <p class="subtitle is-6">$?</p>
+            </div>
+          </div>
+
+          <div class="content">
+            <ul>
+              <li>Нужно больше проектов?</li>
+              <li>Нужно больше участников?</li>
+              <li>Нужно больше задач?</li>
+            </ul>
+
+            <hr>
+
+            <a href="#" class="button is-primary">Свяжитесь с нами</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

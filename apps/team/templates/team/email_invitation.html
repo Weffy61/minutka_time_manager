@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" http-equiv="Content-Type" content="text/html;">
+  <title>Минутка</title>
+
+  <style type="text/css">
+    html {
+      width: 100%;
+    }
+
+    body {
+      width: 100%;
+      font-family: Arial;
+      font-size: 14px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    a {
+      color: #111;
+    }
+  </style>
+</head>
+<body>
+<table width="100%" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><h1>Минутка - Приглашение присоединиться к {{ team.title }}</h1></td>
+  </tr>
+
+  <tr>
+    <td>
+      <p>Вы были приглашены присоединиться к {{ team.title }}</p>
+      <p>Нажмте на кнокпку ниже, чтобы зарегистрироваться или войти. Ваш групповой код автивации: <b>{{ code }}</b> </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <a href="{{ acceptation_url }}">Принять приглашение</a>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
