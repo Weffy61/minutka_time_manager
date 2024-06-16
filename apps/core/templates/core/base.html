@@ -24,24 +24,25 @@
         {% else %}
           <a href="{% url 'dashboard' %}" class="navbar-item">Информационная панель</a>
           <a href="{% url 'project:get_projects' %}" class="navbar-item">Проекты</a>
-
-          <div class="navbar-item" v-if="!trackingTime">
-            <div class="buttons">
-              <a class="button is-success" @click="startTimer()">
-                <span class="icon"><i class="fas fa-stopwatch"></i></span>
-                <span>Старт</span>
-              </a>
+          {% if request.user.userprofile.active_team_id %}
+            <div class="navbar-item" v-if="!trackingTime">
+              <div class="buttons">
+                <a class="button is-success" @click="startTimer()">
+                  <span class="icon"><i class="fas fa-stopwatch"></i></span>
+                  <span>Старт</span>
+                </a>
+              </div>
             </div>
-          </div>
 
-          <div class="navbar-item" v-else>
-            <div class="buttons">
-              <a class="button is-warning" @click="stopTimer()">
-                <span class="icon"><i class="fas fa-stopwatch"></i></span>
-                <span>[[ readableSeconds ]](cтоп)</span>
-              </a>
+            <div class="navbar-item" v-else>
+              <div class="buttons">
+                <a class="button is-warning" @click="stopTimer()">
+                  <span class="icon"><i class="fas fa-stopwatch"></i></span>
+                  <span>[[ readableSeconds ]](cтоп)</span>
+                </a>
+              </div>
             </div>
-          </div>
+          {% endif %}
         {% endif %}
 
         <div class="navbar-item">
