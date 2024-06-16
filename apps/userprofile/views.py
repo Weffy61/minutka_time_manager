@@ -9,8 +9,12 @@ from apps.team.utilities import send_invitation_accepted
 @login_required
 def get_my_account(request):
     teams = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
-    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
-    plan = team.plan
+    # team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+    team = Team.objects.get(pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+    if team:
+        plan = team.plan
+    else:
+        plan = 'Для активации плана создайте группу'
     invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
     return render(request, 'userprofile/myaccount.html', {'teams': teams, 'invitations': invitations, 'plan': plan})
 
