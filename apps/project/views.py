@@ -9,6 +9,8 @@ from apps.team.models import Team
 
 @login_required
 def get_projects(request):
+    if not request.user.userprofile.active_team_id:
+        return redirect('myaccount')
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     projects = team.projects.all()
     if request.method == 'POST':
@@ -22,8 +24,6 @@ def get_projects(request):
 
 @login_required
 def get_project(request, project_id):
-    if not request.user.userprofile.active_team_id:
-        return redirect('myaccount')
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     project = get_object_or_404(Project, team=team, pk=project_id)
 
