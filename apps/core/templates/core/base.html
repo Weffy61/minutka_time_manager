@@ -213,9 +213,9 @@
         const m = Math.floor(d % 3600 / 60);
         const s = Math.floor(d % 3600 % 60);
 
-        const hDisplay = h > 0 ? h + (h == 1 ? "h, " : "ч, ") : "";
-        const mDisplay = m > 0 ? m + (m == 1 ? "m, " : "м, ") : "";
-        const sDisplay = s >= 0 ? s + (s == 1 ? "s" : "с") : "";
+        const hDisplay = h > 0 ? h + (h == 1 ? "ч, " : "ч, ") : "";
+        const mDisplay = m > 0 ? m + (m == 1 ? "м, " : "м, ") : "";
+        const sDisplay = s >= 0 ? s + (s == 1 ? "с" : "с") : "";
 
         return hDisplay + mDisplay + sDisplay;
       }
