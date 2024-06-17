@@ -9,7 +9,7 @@
     <div class="column is-6">
       <div class="notification">
         <h2 class="subtitle">
-          Ваше время за {% if num_days is 0 %}сегодня{% else %}{{ date_user|date:"Y-m-d" }}{% endif %}
+          Ваше время за {% if num_days is 0 %}сегодня{% else %}{{ date_user|date:"d-m-Y" }}{% endif %}
         </h2>
 
         {% if date_entries %}
@@ -135,7 +135,7 @@
       <div class="column is-6">
         <div class="notification">
           <h2 class="subtitle">
-            Ваша команда {% if team_num_month is 0 %}в этом месяце{% else %}{{ team_month|date:"m-Y" }}{% endif %}
+            Ваша группа {% if team_num_month is 0 %}в этом месяце{% else %}{{ team_month|date:"m-Y" }}{% endif %}
           </h2>
           {% if time_for_team_and_month > 0 %}
             <table class="table is-fullwidth" style="text-align: left;">
